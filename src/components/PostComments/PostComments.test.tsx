@@ -1,10 +1,23 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import Post from '.';
-import PostComment from '.';
+import { fireEvent, render, screen } from "@testing-library/react";
+import PostComment from ".";
 
-describe('Teste para o componente PostComment', () => {
-    it('Deve renderizar o componente corretamente', () => {
-        render(<PostComment/>);
-        expect(screen.getByText('Comentar')).toBeInTheDocument();
+describe("Teste para o componente PostComment", () => {
+  test("Deve adicionar 'Massa!!!' e 'Muito bom! ao campo de comentário'", () => {
+    const { debug } = render(<PostComment />);
+
+    fireEvent.change(screen.getByTestId("campo-comentario"), {
+      target: { value: "Massa!!!" },
     });
+    fireEvent.click(screen.getByTestId("btn-comentar"));
+
+    fireEvent.change(screen.getByTestId("campo-comentario"), {
+      target: { value: "Muito bom!" },
+    });
+    fireEvent.click(screen.getByTestId("btn-comentar"));
+
+    debug();
+
+    expect(screen.getByText("Massa!!!")).toBeInTheDocument();
+    expect(screen.getByText("Muito bom!")).toBeInTheDocument();
+  });
 });
